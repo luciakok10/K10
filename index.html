@@ -13,86 +13,82 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Noto Sans TC', sans-serif; }
         body { background: var(--bg); color: white; scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
 
-        /* --- 0. 酷炫開場動畫 (進階 UI 版) --- */
+        /* --- 0. 酷炫開場動畫 (相機 UI 版) --- */
         #intro-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: black; z-index: 9999; display: flex; flex-direction: column;
             justify-content: center; align-items: center; transition: opacity 1s ease-out;
-            color: white; overflow: hidden;
         }
         #intro-loader.fade-out { opacity: 0; pointer-events: none; }
         
         .camera-ui {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            padding: 20px; display: flex; flex-direction: column;
+            padding: 30px; display: flex; flex-direction: column;
             justify-content: space-between; pointer-events: none; z-index: 10;
         }
-        .rec-status { color: var(--p-purple); font-family: monospace; font-size: 0.9rem; }
+        .rec-status { color: #fff; font-family: monospace; font-size: 1rem; letter-spacing: 2px; }
         .rec-status span { color: #ff0000; animation: blink 1s steps(2, start) infinite; }
+        #timer { font-family: monospace; align-self: flex-end; color: var(--p-purple); font-size: 1.2rem; }
         @keyframes blink { to { visibility: hidden; } }
-        #timer { font-family: monospace; align-self: flex-end; color: var(--p-purple); }
 
-        .intro-text { font-size: 2rem; font-weight: 900; letter-spacing: 5px; z-index: 11; }
+        .intro-text { font-size: 2.5rem; font-weight: 900; letter-spacing: 5px; z-index: 11; text-align: center; }
         .intro-text span { opacity: 0; transform: translateY(20px); transition: all 0.5s ease-out; display: inline-block; }
         .intro-text span.visible { opacity: 1; transform: translateY(0); }
-        .loader-bar { width: 100px; height: 2px; background: var(--p-purple); margin-top: 20px; animation: loading 2s infinite alternate; }
-        @keyframes loading { from { width: 0; } to { width: 120px; } }
 
-        /* --- 導航欄 --- */
-        nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; z-index: 1000; background: rgba(5,5,5,0.85); backdrop-filter: blur(15px); }
-        .logo { font-size: 1rem; font-weight: 900; letter-spacing: 2px; }
-        .nav-links { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
-        .nav-links a { text-decoration: none; color: white; font-size: 0.85rem; transition: 0.3s; }
-        .btn-top { background: white; color: black !important; padding: 6px 15px; border-radius: 50px; font-weight: bold; }
+        /* --- 導航欄 (解決無法點擊問題) --- */
+        nav { 
+            position: fixed; top: 0; width: 100%; 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 1rem 5%; z-index: 1000; 
+            background: rgba(5,5,5,0.8); backdrop-filter: blur(15px); 
+        }
+        .logo { font-size: 1.2rem; font-weight: 900; letter-spacing: 2px; cursor: pointer; }
+        .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
+        .nav-links a { 
+            text-decoration: none; color: white; font-size: 0.9rem; 
+            font-weight: 700; transition: 0.3s; position: relative;
+        }
+        .nav-links a:hover { color: var(--p-purple); }
 
         /* Section 1: Hero */
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 5%; }
-        .hero h1 { font-size: clamp(2.2rem, 10vw, 4.5rem); font-weight: 900; line-height: 1.1; margin: 1rem 0 2rem; }
+        .hero h1 { font-size: clamp(2.5rem, 10vw, 4.5rem); font-weight: 900; line-height: 1.1; margin: 1.5rem 0 2.5rem; }
         .hero h1 span { color: var(--p-purple); text-shadow: 0 0 20px rgba(147, 51, 234, 0.4); }
 
-        /* Section 2: Portfolio */
-        .portfolio-section { padding: 80px 5%; background: #080808; }
-        .portfolio-header h2 { font-size: clamp(2rem, 8vw, 3rem); text-align: center; margin-bottom: 30px; }
-        .portfolio-filter { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
-        .filter-btn { padding: 8px 20px; border-radius: 50px; background: #222; color: white; border: none; cursor: pointer; font-size: 0.9rem; }
-        .filter-btn.active { background: var(--p-purple); }
+        /* Section 2: Portfolio (響應式優化) */
+        .portfolio-section { padding: 100px 5%; background: #080808; scroll-margin-top: 80px; }
+        .portfolio-header h2 { font-size: clamp(2.2rem, 8vw, 3.5rem); text-align: center; margin-bottom: 40px; }
+        .portfolio-filter { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap; }
+        .filter-btn { padding: 12px 28px; border-radius: 50px; background: #222; color: white; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .filter-btn.active { background: var(--p-purple); box-shadow: 0 0 15px rgba(147, 51, 234, 0.5); }
 
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .video-card { position: relative; border-radius: 15px; overflow: hidden; aspect-ratio: 9 / 16; background: #111; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .video-card { position: relative; border-radius: 24px; overflow: hidden; aspect-ratio: 9 / 16; background: #111; border: 1px solid #222; }
         .video-card iframe { width: 100%; height: 100%; border: none; }
 
-        .design-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .design-card { border-radius: 15px; overflow: hidden; aspect-ratio: 16 / 10; position: relative; }
-        .design-card img { width: 100%; height: 100%; object-fit: cover; }
-
         /* Section 3: About */
-        .about { padding: 80px 5%; display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
-        .about-img { flex: 1; min-width: 300px; border-radius: 20px; overflow: hidden; }
-        .about-img img { width: 100%; filter: grayscale(1); display: block; }
-        .about-text { flex: 1.2; min-width: 300px; }
-        .about-text h2 { font-size: clamp(2.5rem, 8vw, 3.5rem); margin-bottom: 20px; }
-        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
-        .stat-n h3 { color: var(--p-purple); font-size: 1.8rem; }
-        .stat-n p { font-size: 0.75rem; color: var(--gray); }
+        .about { padding: 100px 5%; display: flex; align-items: center; gap: 60px; flex-wrap: wrap; scroll-margin-top: 80px; }
+        .about-img { flex: 1; min-width: 320px; border-radius: 24px; overflow: hidden; border: 1px solid #333; }
+        .about-img img { width: 100%; filter: grayscale(1); display: block; transition: 0.5s; }
+        .about-img:hover img { filter: grayscale(0); transform: scale(1.05); }
+        .about-text { flex: 1.2; min-width: 320px; }
+        .about-text h2 { font-size: clamp(2.5rem, 8vw, 4rem); line-height: 1; margin-bottom: 30px; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 40px 0; }
+        .stat-n h3 { color: var(--p-purple); font-size: 2.5rem; margin-bottom: 5px; }
+        .stat-n p { font-size: 0.85rem; color: var(--gray); font-weight: bold; }
 
         /* Section 4: Contact */
-        .contact { padding: 80px 5%; background: white; color: var(--text-dark); text-align: center; }
-        .contact h2 { font-size: clamp(2.8rem, 10vw, 4.5rem); margin-bottom: 30px; }
-        .f-container { max-width: 600px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 20px; }
-        .f-group { border-bottom: 1px solid #ddd; padding: 10px 0; text-align: left; }
-        .f-group label { font-size: 0.7rem; font-weight: 900; color: #999; }
-        .f-group input, .f-group textarea { width: 100%; border: none; padding: 8px 0; outline: none; font-size: 1rem; }
-        .btn-send { background: black; color: white; padding: 15px 40px; border-radius: 50px; font-weight: 900; border: none; margin-top: 30px; width: 100%; max-width: 300px; }
+        .contact { padding: 120px 5%; background: white; color: var(--text-dark); text-align: center; scroll-margin-top: 80px; }
+        .contact h2 { font-size: clamp(3rem, 12vw, 5rem); font-weight: 900; margin-bottom: 40px; }
+        .f-container { max-width: 700px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 30px; }
+        .f-group { border-bottom: 2px solid #eee; padding: 15px 0; text-align: left; }
+        .f-group label { font-size: 0.8rem; font-weight: 900; color: #bbb; }
+        .f-group input, .f-group textarea { width: 100%; border: none; padding: 12px 0; outline: none; font-size: 1.1rem; color: #000; }
 
-        footer { padding: 40px; background: white; text-align: center; border-top: 1px solid #eee; }
-        footer a { color: black; text-decoration: none; margin: 0 10px; font-size: 0.8rem; font-weight: bold; }
-
-        /* 手機端特別優化 */
-        @media (max-width: 600px) {
-            .nav-links { display: none; } /* 簡化手機選單 */
-            .video-grid { grid-template-columns: 1fr; }
-            .stats { gap: 15px; }
-            .hero { padding-top: 60px; }
+        @media (max-width: 768px) {
+            .nav-links { gap: 1rem; }
+            .nav-links a { font-size: 0.8rem; }
+            .video-grid { grid-template-columns: 1fr; gap: 20px; }
         }
     </style>
 </head>
@@ -106,102 +102,87 @@
         <div class="intro-text">
             <span>C</span><span>R</span><span>E</span><span>A</span><span>T</span><span>I</span><span>V</span><span>E</span><span>.</span><span>V</span><span>O</span><span>D</span>
         </div>
-        <div class="loader-bar"></div>
     </div>
 
     <nav>
-        <div class="logo">CREATIVE.VOD</div>
+        <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">CREATIVE.VOD</div>
         <ul class="nav-links">
-            <li><a href="#portfolio-area">作品</a></li>
+            <li><a href="#portfolio-area">作品集</a></li>
             <li><a href="#about">關於</a></li>
-            <li><a href="#contact" class="btn-top">聯繫</a></li>
+            <li><a href="#contact">聯繫洽談</a></li>
         </ul>
     </nav>
 
     <section class="hero">
-        <p style="letter-spacing: 5px; color: #555; font-size: 0.8rem;">VISUAL STORYTELLER</p>
+        <p style="letter-spacing: 5px; color: #666; font-size: 0.9rem; font-weight: bold;">VISUAL STORYTELLER</p>
         <h1>捕捉瞬間的<br><span>動態美學</span></h1>
-        <div style="display:flex; gap:15px; flex-wrap: wrap; justify-content: center;">
-            <a href="#portfolio-area" style="background:var(--p-purple); color:white; padding:12px 30px; border-radius:50px; text-decoration:none; font-weight:bold; font-size: 0.9rem;">查看作品 →</a>
-        </div>
+        <a href="#portfolio-area" style="background:var(--p-purple); color:white; padding:18px 45px; border-radius:50px; text-decoration:none; font-weight:900; box-shadow: 0 10px 30px rgba(147,51,234,0.3);">查看作品集 →</a>
     </section>
 
     <section id="portfolio-area" class="portfolio-section">
         <div class="portfolio-header">
-            <h2>我的作品</h2>
+            <h2>Featured Works</h2>
             <div class="portfolio-filter">
-                <button class="filter-btn active" data-filter="video">短影音</button>
+                <button class="filter-btn active" data-filter="video">短影音作品</button>
                 <button class="filter-btn" data-filter="design">平面設計</button>
             </div>
         </div>
 
         <div id="video-portfolio" class="video-grid">
             <div class="video-card">
-                <iframe src="https://www.youtube.com/embed/va_5q5G1aCc" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/va_5q5G1aCc?mute=1&loop=1" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
             <div class="video-card">
-                <iframe src="https://www.youtube.com/embed/QVZGOJE3aHE" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/QVZGOJE3aHE?mute=1&loop=1" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
             <div class="video-card">
-                <iframe src="https://www.youtube.com/embed/JqDsD-AV1ZE" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
-            <div class="video-card">
-                <iframe src="https://www.youtube.com/embed/u3j0kzHBp2E" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/JqDsD-AV1ZE?mute=1&loop=1" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </div>
 
         <div id="design-portfolio" class="design-grid" style="display: none;">
-            <div class="design-card">
-                <img src="https://images.unsplash.com/photo-1542435503-9e5b3065538e?auto=format&fit=crop&w=600" alt="設計">
-            </div>
-            <div class="design-card">
-                <img src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&w=600" alt="設計">
-            </div>
+            <div class="design-card"><img src="https://images.unsplash.com/photo-1542435503-9e5b3065538e?auto=format&fit=crop&w=800"></div>
+            <div class="design-card"><img src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&w=800"></div>
         </div>
     </section>
 
     <section id="about" class="about">
-        <div class="about-img"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800"></div>
+        <div class="about-img"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1000"></div>
         <div class="about-text">
-            <h2>THINK.<br>CREATE.</h2>
-            <p style="color:var(--gray); font-size:0.9rem; line-height:1.6;">在碎片化訊息時代，前 3 秒決定了觀看者的去留...</p>
+            <h2>THINK.<br>CREATE.<br>DELIVER.</h2>
+            <p style="color:var(--gray); font-size:1.1rem; line-height:1.8;">致力於將品牌靈魂轉化為具備衝擊力的視覺語言...</p>
             <div class="stats">
-                <div class="stat-n"><h3>500+</h3><p>完成項目</p></div>
-                <div class="stat-n"><h3>10M+</h3><p>累計播放</p></div>
+                <div class="stat-n"><h3>500+</h3><p>PROJECTS</p></div>
+                <div class="stat-n"><h3>10M+</h3><p>VIEWS</p></div>
             </div>
         </div>
     </section>
 
     <section id="contact" class="contact">
-        <h2>READY?</h2>
+        <h2>READY TO<br>START?</h2>
         <div class="f-container">
-            <div class="f-group"><label>NAME</label><input type="text" placeholder="你的姓名"></div>
-            <div class="f-group"><label>EMAIL</label><input type="email" placeholder="你的信箱"></div>
-            <div class="f-group"><label>MESSAGE</label><textarea rows="2" placeholder="告訴我你的項目..."></textarea></div>
+            <div class="f-group"><label>YOUR NAME</label><input type="text"></div>
+            <div class="f-group"><label>YOUR EMAIL</label><input type="email"></div>
+            <div class="f-group"><label>PROJECT DETAIL</label><textarea rows="3"></textarea></div>
         </div>
-        <button class="btn-send">SEND</button>
+        <button style="background:black; color:white; padding:20px 60px; border-radius:50px; border:none; font-weight:900; margin-top:50px; cursor:pointer;">SEND INQUIRY</button>
     </section>
-
-    <footer>
-        <a href="#">Instagram</a><a href="#">Vimeo</a>
-    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- 0. 開場動畫與時間碼 ---
+            // 1. Loader & Timer
             const introLoader = document.getElementById('intro-loader');
             const introTextSpans = document.querySelectorAll('.intro-text span');
             const timerElement = document.getElementById('timer');
             let frame = 0;
 
-            // 模擬攝影機時間碼跑動
             function updateTimer() {
                 frame++;
                 const mins = Math.floor((frame / 3600) % 60).toString().padStart(2, '0');
                 const secs = Math.floor((frame / 60) % 60).toString().padStart(2, '0');
                 const ms = (frame % 60).toString().padStart(2, '0');
-                timerElement.innerText = `00:${mins}:${secs}:${ms}`;
-                if(frame < 200) requestAnimationFrame(updateTimer);
+                timerElement.innerText = `00:00:${secs}:${ms}`;
+                if(frame < 250) requestAnimationFrame(updateTimer);
             }
             updateTimer();
 
@@ -209,25 +190,32 @@
                 setTimeout(() => span.classList.add('visible'), 100 * index);
             });
 
-            // 手機端縮短等待時間提升體驗
-            const exitDelay = window.innerWidth < 768 ? 1800 : 2500;
             setTimeout(() => {
                 introLoader.classList.add('fade-out');
-                setTimeout(() => {
-                    introLoader.remove();
-                    document.body.style.overflow = 'auto';
-                }, 1000);
-            }, exitDelay);
+                document.body.style.overflow = 'auto';
+            }, 2800);
 
-            // --- 2. 作品集篩選 ---
+            // 2. 篩選邏輯
             const filterButtons = document.querySelectorAll('.filter-btn');
             filterButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     filterButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
-                    const filterType = button.dataset.filter;
-                    document.getElementById('video-portfolio').style.display = filterType === 'video' ? 'grid' : 'none';
-                    document.getElementById('design-portfolio').style.display = filterType === 'design' ? 'grid' : 'none';
+                    const type = button.dataset.filter;
+                    document.getElementById('video-portfolio').style.display = type === 'video' ? 'grid' : 'none';
+                    document.getElementById('design-portfolio').style.display = type === 'design' ? 'grid' : 'none';
+                });
+            });
+
+            // 3. 點選導航平滑捲動 (解決紅線處跳轉問題)
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
                 });
             });
         });
